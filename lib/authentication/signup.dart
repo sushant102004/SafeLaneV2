@@ -83,27 +83,22 @@ class SignUp extends StatelessWidget {
                 width: size.width * 0.8,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                      email: emailcontroller.text,
-                      password: passwordcontroller.text,
-                    )
-                        .then((value) async {
-                      User? user = FirebaseAuth.instance.currentUser;
+                  onPressed: () async {
 
-                      await FirebaseFirestore.instance.collection("users").doc(user!.uid).set({
-                        'uid' : user.uid,
-                        
-                        'name' : name
-                      });
-
-                      print("Created New Account");
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const HomePage()));
-                    }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
-                    });
+                    try {
+                          UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            email: emailcontroller.text,
+                            password: passwordcontroller.text
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            print('The password provided is too weak.');
+                          } else if (e.code == 'email-already-in-use') {
+                            print('The account already exists for that email.');
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,

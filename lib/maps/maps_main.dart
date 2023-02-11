@@ -191,12 +191,11 @@ class _MapViewState extends State<MapView> {
           LineString(data['features'][0]['geometry']['coordinates']);
 
       for (int i = 0; i < ls.lineString.length; i++) {
-        print('Latitude: ${ls.lineString[i][0]} && Longitude: ${ls.lineString[i][1]}');
+        print(
+            'Latitude: ${ls.lineString[i][0]} && Longitude: ${ls.lineString[i][1]}');
         polylines.add(Polyline(
             polylineId: const PolylineId('2'),
-            points: [
-              LatLng(ls.lineString[i][0], ls.lineString[i][1])
-            ]));
+            points: [LatLng(ls.lineString[i][0], ls.lineString[i][1])]));
       }
     } catch (err) {
       print('Error: $err');
@@ -300,7 +299,7 @@ class _MapViewState extends State<MapView> {
                     ),
                     width: width * 0.9,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -308,9 +307,9 @@ class _MapViewState extends State<MapView> {
                             'Places',
                             style: TextStyle(fontSize: 20.0),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 4),
                           _textField(
-                              label: 'Start',
+                              label: 'From',
                               hint: 'Choose starting point',
                               prefixIcon: const Icon(Icons.looks_one),
                               suffixIcon: IconButton(
@@ -328,9 +327,9 @@ class _MapViewState extends State<MapView> {
                                   _startAddress = value;
                                 });
                               }),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 7),
                           _textField(
-                              label: 'Destination',
+                              label: 'To',
                               hint: 'Choose destination',
                               prefixIcon: const Icon(Icons.looks_two),
                               controller: destinationAddressController,
@@ -341,7 +340,7 @@ class _MapViewState extends State<MapView> {
                                   _destinationAddress = value;
                                 });
                               }),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 6),
                           Visibility(
                             visible: _placeDistance == null ? false : true,
                             child: Text(
@@ -352,7 +351,7 @@ class _MapViewState extends State<MapView> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 1),
                           ElevatedButton(
                             // onPressed: (
 
@@ -406,7 +405,7 @@ class _MapViewState extends State<MapView> {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(6.0),
                               child: Text(
                                 'Show Route'.toUpperCase(),
                                 style: const TextStyle(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -20,7 +18,7 @@ class _ProfileScreenState extends State<Profile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Column(
                 children: [
                   Container(
@@ -56,7 +54,6 @@ class _ProfileScreenState extends State<Profile> {
                       fontSize: 16,
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -64,7 +61,7 @@ class _ProfileScreenState extends State<Profile> {
               flex: 5,
               child: Container(
                 padding: const EdgeInsets.only(
-                  top: 20,
+                  top: 40,
                   left: 24,
                   right: 24,
                 ),
@@ -87,10 +84,22 @@ class _ProfileScreenState extends State<Profile> {
                         fontSize: 20,
                       ),
                     ),
-                    const SizedBox(height: 25,),
-                    listProfile(Icons.person, "Full Name", "Sujal Garg"),
-                    listProfile(Icons.date_range, "Date of Birth", "July 21, 2000"),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    listProfile(Icons.person, "Name", "Sujal Garg"),
+                    listProfile(Icons.mail, "Email", "sujalgarg17@gmail.com"),
                     listProfile(Icons.phone, "Phone Number", "-"),
+                    listProfile(
+                        Icons.date_range, "Date of Birth", "July 21, 2000"),
+                    // ElevatedButton(
+                    //   onPressed: () {},
+                    //   style: ElevatedButton.styleFrom(
+                    //       backgroundColor: Colors.black,,
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(10))),
+                    //   child: const Text("Edit Profile"),
+                    // ),
                   ],
                 ),
               ),
@@ -112,7 +121,9 @@ class _ProfileScreenState extends State<Profile> {
             icon,
             size: 20,
           ),
-          const SizedBox(width: 24,),
+          const SizedBox(
+            width: 24,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -139,5 +150,4 @@ class _ProfileScreenState extends State<Profile> {
       ),
     );
   }
-
 }
