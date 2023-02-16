@@ -42,8 +42,9 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^3.0.1
   google_maps_flutter: ^2.0.6
-  google_sign_in: ^5.4.2
+  google_sign_in: ^5.4.4
   image_picker: ^0.8.6
+  custom_marker: ^1.0.0
   uuid: ^3.0.7
 
 dev_dependencies:

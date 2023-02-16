@@ -10,13 +10,14 @@ import 'package:safelane/authentication/signup.dart';
 import 'package:safelane/tabs/home.dart';
 
 class loginScreen extends StatelessWidget {
-  const loginScreen({Key? key}) : super(key: key);
+  loginScreen({Key? key}) : super(key: key);
+
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
@@ -76,9 +77,9 @@ class loginScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       final String email = emailController.text.trim();
-                      final String passwpord = passwordController.text.trim();
+                      final String password = passwordController.text.trim();
 
                       if (email.isEmpty) {
                         print("Enter Email");
@@ -86,10 +87,10 @@ class loginScreen extends StatelessWidget {
                         print("Enter Password ");
                       }
 
-                      FirebaseAuth.instance
+                      await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
+                              email: email,
+                              password: password)
                           .then((value) {
                         Navigator.push(
                             context,
@@ -170,7 +171,7 @@ class loginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const SignUp()),
+                        MaterialPageRoute(builder: (_) => SignUp()),
                       );
                     },
                     child: const Text("Sign Up"))

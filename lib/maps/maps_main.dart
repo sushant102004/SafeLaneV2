@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safelane/maps/line_string.dart';
 import 'package:safelane/maps/maps_helper.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:custom_marker/marker_icon.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 class MapView extends StatefulWidget {
@@ -101,7 +103,7 @@ class _MapViewState extends State<MapView> {
         .then((Position position) async {
       setState(() {
         _currentPosition = position;
-        print('CURRENT POS: $_currentPosition');
+        // print('CURRENT POS: $_currentPosition');
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
@@ -191,12 +193,11 @@ class _MapViewState extends State<MapView> {
           LineString(data['features'][0]['geometry']['coordinates']);
 
       for (int i = 0; i < ls.lineString.length; i++) {
-        print('Latitude: ${ls.lineString[i][0]} && Longitude: ${ls.lineString[i][1]}');
+        print(
+            'Latitude: ${ls.lineString[i][0]} && Longitude: ${ls.lineString[i][1]}');
         polylines.add(Polyline(
             polylineId: const PolylineId('2'),
-            points: [
-              LatLng(ls.lineString[i][0], ls.lineString[i][1])
-            ]));
+            points: [LatLng(ls.lineString[i][0], ls.lineString[i][1])]));
       }
     } catch (err) {
       print('Error: $err');
@@ -209,10 +210,24 @@ class _MapViewState extends State<MapView> {
     getPolyPoints();
   }
 
+  Future getDocuments() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('potholes').get();
+
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      markers.add(Marker(
+          markerId: MarkerId(querySnapshot.docs[i]['downloadLink']),
+          position: LatLng(querySnapshot.docs[i]['latitude'],
+              querySnapshot.docs[i]['longitude']),
+          icon: await MarkerIcon.pictureAsset(assetPath: 'assets/images/logo.png', width: 80, height: 100)));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    getDocuments();
   }
 
   @override

@@ -54,7 +54,7 @@ class DraggableItems extends StatelessWidget {
               onTap: () {
                 FirebaseAuth.instance.signOut().then((value) {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const loginScreen()));
+                      MaterialPageRoute(builder: (context) => loginScreen()));
                 });
               },
               textLabel: 'Log Out',

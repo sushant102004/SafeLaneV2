@@ -68,7 +68,7 @@ int currentIndex=0;
               child: ElevatedButton(
                   onPressed: (){
                     if(currentIndex==Demo_data.length-1){
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const loginScreen()),
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> loginScreen()),
                       );
                     }
                     _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);

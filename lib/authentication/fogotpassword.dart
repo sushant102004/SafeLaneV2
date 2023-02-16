@@ -22,7 +22,7 @@ class ForgotPassword extends StatelessWidget {
           leading: BackButton(
             color: Colors.black,
             onPressed:() {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>const loginScreen()),);
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> loginScreen()),);
             },
           ),
         ),

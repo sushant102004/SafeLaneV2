@@ -10,14 +10,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final emailcontroller = TextEditingController();
+  SignUp({Key? key}) : super(key: key);
+  final emailcontroller = TextEditingController();
     final name = TextEditingController();
     final passwordcontroller = TextEditingController();
     final confirmpasswordcontroller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -180,7 +180,7 @@ class SignUp extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const loginScreen()),
+                          MaterialPageRoute(builder: (_) => loginScreen()),
                         );
                       },
                       child: const Text("Login"))
