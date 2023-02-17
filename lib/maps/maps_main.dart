@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safelane/maps/line_string.dart';
 import 'package:safelane/maps/maps_helper.dart';
-import 'package:safelane/maps/secrets.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,7 +20,7 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   final CameraPosition _initialLocation =
-      const CameraPosition(target: LatLng(0.0, 0.0));
+      const CameraPosition(target: LatLng(28.7041, 77.1025));
   late GoogleMapController mapController;
 
   late Position _currentPosition;
@@ -38,6 +36,7 @@ class _MapViewState extends State<MapView> {
   String _destinationAddress = '';
   String? _placeDistance;
   List<Location> _destinationPosition = [];
+  bool isFirstSearch = true;
 
   var distance = 0.0;
 
@@ -205,6 +204,12 @@ class _MapViewState extends State<MapView> {
   }
 
   Future<dynamic> showRoute() async {
+    if (startAddressController.text.isEmpty ||
+        destinationAddressController.text.isEmpty) {
+      return const AlertDialog(
+        content: Text('Please enter start and end address.'),
+      );
+    }
     await addDestinationMark();
     calculateDistance();
     getPolyPoints();
@@ -219,7 +224,8 @@ class _MapViewState extends State<MapView> {
           markerId: MarkerId(querySnapshot.docs[i]['downloadLink']),
           position: LatLng(querySnapshot.docs[i]['latitude'],
               querySnapshot.docs[i]['longitude']),
-          icon: await MarkerIcon.pictureAsset(assetPath: 'assets/images/logo.png', width: 80, height: 100)));
+          icon: await MarkerIcon.pictureAsset(
+              assetPath: 'assets/images/logo.png', width: 80, height: 100)));
     }
   }
 
@@ -369,48 +375,6 @@ class _MapViewState extends State<MapView> {
                           ),
                           const SizedBox(height: 5),
                           ElevatedButton(
-                            // onPressed: (
-
-                            //   _startAddress != '' &&
-                            //         _destinationAddress != '')
-                            //     ? () async {
-                            //         startAddressFocusNode.unfocus();
-                            //         desrinationAddressFocusNode.unfocus();
-                            //         setState(() {
-                            //           if (markers.isNotEmpty) markers.clear();
-                            //           if (polylines.isNotEmpty) {
-                            //             polylines.clear();
-                            //           }
-                            //           if (polylineCoordinates.isNotEmpty) {
-                            //             polylineCoordinates.clear();
-                            //           }
-                            //           _placeDistance = null;
-                            //         });
-
-                            //         // _calculateDistance().then((isCalculated) {
-                            //         //   if (isCalculated) {
-                            //         //     ScaffoldMessenger.of(context)
-                            //         //         .showSnackBar(
-                            //         //       const SnackBar(
-                            //         //         content: Text(
-                            //         //             'Distance Calculated Sucessfully'),
-                            //         //       ),
-                            //         //     );
-                            //         //   } else {
-                            //         //     ScaffoldMessenger.of(context)
-                            //         //         .showSnackBar(
-                            //         //       const SnackBar(
-                            //         //         content: Text(
-                            //         //             'Error Calculating Distance'),
-                            //         //       ),
-                            //         //     );
-                            //         //   }
-                            //         // });
-
-                            //         await showRoute();
-                            //         print('Workin');
-                            //       }
-                            //     : null,
                             onPressed: () {
                               showRoute();
                             },
