@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,16 +15,16 @@ class ImageController extends GetxController {
   final firebaseStorage = FirebaseStorage.instance;
   final uuid = const Uuid();
 
-  Future<dynamic> uploadImage(File? image, String obstacleType, String detail) async {
+  Future<dynamic> uploadImage(
+      File? image, String obstacleType, String detail) async {
     RxString downloadLink = ''.obs;
     final storageInsance = firebaseStorage.ref();
     final user = FirebaseAuth.instance.currentUser;
 
     Get.defaultDialog(
-      title: 'Uploading...',
-      content: const CircularProgressIndicator(),
-      barrierDismissible: true
-    );
+        title: 'Uploading...',
+        content: const CircularProgressIndicator(),
+        barrierDismissible: true);
 
     try {
       final imageName = uuid.v1();
@@ -33,12 +34,18 @@ class ImageController extends GetxController {
       final downloadLink =
           await storageInsance.child('images/$imageName.png').getDownloadURL();
 
-      Position currentLocation = await Geolocator.getCurrentPosition(
+      Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
+      List<Placemark> locations = await placemarkFromCoordinates(
+          currentPosition.latitude, currentPosition.longitude);
+      
+      Placemark currentLocation = locations[0];
+
       await cloudFirestore.collection('potholes').doc(uuid.v1()).set({
-        'latitude': currentLocation.latitude,
-        'longitude': currentLocation.longitude,
+        'latitude': currentPosition.latitude,
+        'longitude': currentPosition.longitude,
+        'place' : currentLocation,
         'downloadLink': downloadLink,
         'uploadedBy': user!.email,
         'obstacleType': obstacleType,

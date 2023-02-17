@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:safelane/maps/line_string.dart';
 import 'package:safelane/maps/maps_helper.dart';
 import 'package:geocoding/geocoding.dart';
@@ -215,17 +216,178 @@ class _MapViewState extends State<MapView> {
     getPolyPoints();
   }
 
-  Future getDocuments() async {
+  Future getAllPotholes() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('potholes').get();
 
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       markers.add(Marker(
-          markerId: MarkerId(querySnapshot.docs[i]['downloadLink']),
-          position: LatLng(querySnapshot.docs[i]['latitude'],
-              querySnapshot.docs[i]['longitude']),
-          icon: await MarkerIcon.pictureAsset(
-              assetPath: 'assets/images/logo.png', width: 80, height: 100)));
+        markerId: MarkerId(querySnapshot.docs[i]['downloadLink']),
+        position: LatLng(querySnapshot.docs[i]['latitude'],
+            querySnapshot.docs[i]['longitude']),
+        icon: await MarkerIcon.pictureAsset(
+            assetPath: 'assets/images/logo.png', width: 80, height: 100),
+        onTap: () {
+          showModalBottomSheet(
+            
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              context: context,
+              builder: (context) {
+                return Wrap(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(Get.height / 50),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                  querySnapshot.docs[i]['downloadLink'])),
+                          SizedBox(height: Get.height / 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                querySnapshot.docs[i]['place'],
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Get.defaultDialog(
+                                        title: 'Pothole Details',
+                                        content: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Latitude',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade900,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  querySnapshot.docs[i]
+                                                          ['latitude']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade700,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
+                                            Divider(),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Longitude',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade900,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  querySnapshot.docs[i]
+                                                          ['longitude']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade700,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
+                                            Divider(),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Obstacle Type',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade900,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  querySnapshot.docs[i]
+                                                          ['obstacleType']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade700,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
+                                            Divider(),
+                                            Container(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'By',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.grey.shade900,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    querySnapshot.docs[i]
+                                                            ['uploadedBy']
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.grey.shade700,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ));
+                                  },
+                                  icon: const Icon(Icons.help_outline))
+                            ],
+                          ),
+                          Text(
+                            querySnapshot.docs[i]['details'],
+                            style: TextStyle(
+                                color: Colors.grey.shade700,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              });
+        },
+      ));
     }
   }
 
@@ -233,7 +395,7 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     _getCurrentLocation();
-    getDocuments();
+    getAllPotholes();
   }
 
   @override
