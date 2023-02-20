@@ -7,6 +7,7 @@ import 'package:safelane/authentication/google_auth.dart';
 // import 'package:safelane/tabs/home.dart';
 import 'firebase_options.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

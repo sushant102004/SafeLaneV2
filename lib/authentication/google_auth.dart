@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safelane/tabs/home.dart';
+
 
 class GoogleAuth extends StatefulWidget {
   const GoogleAuth({super.key});
@@ -13,6 +12,23 @@ class GoogleAuth extends StatefulWidget {
 }
 
 class _GoogleAuthState extends State<GoogleAuth> {
+  Future <dynamic> signInWithGoogle() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+    if(googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken
+      );
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      print(userCredential.user!.displayName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,19 +36,7 @@ class _GoogleAuthState extends State<GoogleAuth> {
         child: ElevatedButton(
           child: const Text('Sign in with Google'),
           onPressed: () async {
-            final GoogleSignInAccount? googleUser =
-                await GoogleSignIn().signIn();
-
-            final GoogleSignInAuthentication? googleAuth =
-                await googleUser?.authentication;
-
-            final credential = GoogleAuthProvider.credential(
-              accessToken: googleAuth?.accessToken,
-              idToken: googleAuth?.idToken,
-            );
-
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+            signInWithGoogle();
           },
         ),
       ),
