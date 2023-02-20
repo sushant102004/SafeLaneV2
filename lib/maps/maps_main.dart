@@ -229,7 +229,6 @@ class _MapViewState extends State<MapView> {
             assetPath: 'assets/images/logo.png', width: 80, height: 100),
         onTap: () {
           showModalBottomSheet(
-            
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               context: context,
@@ -241,10 +240,14 @@ class _MapViewState extends State<MapView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                  querySnapshot.docs[i]['downloadLink'])),
+                          SizedBox(
+                            width: Get.width,
+                            height: Get.height / 3.5,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    querySnapshot.docs[i]['downloadLink'], fit: BoxFit.cover,)),
+                          ),
                           SizedBox(height: Get.height / 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,8 +349,8 @@ class _MapViewState extends State<MapView> {
                                                   Text(
                                                     'By: ',
                                                     style: TextStyle(
-                                                        color:
-                                                            Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.normal),
@@ -360,11 +363,11 @@ class _MapViewState extends State<MapView> {
                                                               ['uploadedBy']
                                                           .toString(),
                                                       style: TextStyle(
-                                                          color:
-                                                              Colors.grey.shade700,
+                                                          color: Colors
+                                                              .grey.shade700,
                                                           fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.normal),
+                                                          fontWeight: FontWeight
+                                                              .normal),
                                                     ),
                                                   ),
                                                 ],

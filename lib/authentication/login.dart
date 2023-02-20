@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types, avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safelane/authentication/components/text_field.dart';
 import 'package:safelane/authentication/fogotpassword.dart';
 import 'package:safelane/authentication/signup.dart';
@@ -12,8 +10,8 @@ import 'package:safelane/tabs/home.dart';
 class loginScreen extends StatelessWidget {
   loginScreen({Key? key}) : super(key: key);
 
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,8 @@ class loginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const ForgotPassword()),
+                        MaterialPageRoute(
+                            builder: (_) => const ForgotPassword()),
                       );
                     },
                     child: const Text("Forgot Password?"),
@@ -89,8 +88,7 @@ class loginScreen extends StatelessWidget {
 
                       await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
-                              email: email,
-                              password: password)
+                              email: email, password: password)
                           .then((value) {
                         Navigator.push(
                             context,
