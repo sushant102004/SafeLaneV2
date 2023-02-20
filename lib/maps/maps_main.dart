@@ -265,7 +265,7 @@ class _MapViewState extends State<MapView> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  'Latitude',
+                                                  'Latitude: ',
                                                   style: TextStyle(
                                                       color:
                                                           Colors.grey.shade900,
@@ -291,7 +291,7 @@ class _MapViewState extends State<MapView> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  'Longitude',
+                                                  'Longitude: ',
                                                   style: TextStyle(
                                                       color:
                                                           Colors.grey.shade900,
@@ -317,7 +317,7 @@ class _MapViewState extends State<MapView> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  'Obstacle Type',
+                                                  'Obstacle Type: ',
                                                   style: TextStyle(
                                                       color:
                                                           Colors.grey.shade900,
@@ -344,7 +344,7 @@ class _MapViewState extends State<MapView> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    'By',
+                                                    'By: ',
                                                     style: TextStyle(
                                                         color:
                                                             Colors.grey.shade900,
@@ -353,16 +353,19 @@ class _MapViewState extends State<MapView> {
                                                             FontWeight.normal),
                                                   ),
                                                   const SizedBox(width: 10),
-                                                  Text(
-                                                    querySnapshot.docs[i]
-                                                            ['uploadedBy']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.grey.shade700,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.normal),
+                                                  Container(
+                                                    width: Get.width / 1.6,
+                                                    child: Text(
+                                                      querySnapshot.docs[i]
+                                                              ['uploadedBy']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.grey.shade700,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.normal),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

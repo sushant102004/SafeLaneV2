@@ -36,16 +36,18 @@ class ImageController extends GetxController {
 
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-
-      List<Placemark> locations = await placemarkFromCoordinates(
-          currentPosition.latitude, currentPosition.longitude);
       
-      Placemark currentLocation = locations[0];
+      final latitude = currentPosition.latitude;
+      final longitude = currentPosition.longitude;
 
+      // Getting Current Address
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      final exactLocation = placemarks[0];
+  
       await cloudFirestore.collection('potholes').doc(uuid.v1()).set({
         'latitude': currentPosition.latitude,
         'longitude': currentPosition.longitude,
-        'place' : currentLocation,
+        'place' : exactLocation.locality,
         'downloadLink': downloadLink,
         'uploadedBy': user!.email,
         'obstacleType': obstacleType,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safelane/tabs/home.dart';
 
-
 class GoogleAuth extends StatefulWidget {
   const GoogleAuth({super.key});
 
@@ -12,19 +11,21 @@ class GoogleAuth extends StatefulWidget {
 }
 
 class _GoogleAuthState extends State<GoogleAuth> {
-  Future <dynamic> signInWithGoogle() async {
+  Future<dynamic> signInWithGoogle() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
-    if(googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken
-      );
-      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken);
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       print(userCredential.user!.displayName);
     }
   }
@@ -36,7 +37,9 @@ class _GoogleAuthState extends State<GoogleAuth> {
         child: ElevatedButton(
           child: const Text('Sign in with Google'),
           onPressed: () async {
-            signInWithGoogle();
+            signInWithGoogle().then((value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (builder) => const HomePage())));
           },
         ),
       ),
