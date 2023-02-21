@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "231335301262-ltg2bhqgu6qtmeli4i5nr6cgb44v8rgc.apps.googleusercontent.com",
+          "client_id": "231335301262-2ubn5ud4d6uk0so60o7hlumpkjsubm7m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.safelane",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "231335301262-g1da2va8oo99snaepive59sbuskapmbj.apps.googleusercontent.com",
+          "client_id": "231335301262-fan133ibmglpfdroq1frlhh34i745v4f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "231335301262-g1da2va8oo99snaepive59sbuskapmbj.apps.googleusercontent.com",
+              "client_id": "231335301262-fan133ibmglpfdroq1frlhh34i745v4f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -37,9 +37,9 @@ class _GoogleAuthState extends State<GoogleAuth> {
         child: ElevatedButton(
           child: const Text('Sign in with Google'),
           onPressed: () async {
-            signInWithGoogle().then((value) => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (builder) => const HomePage())));
+            await signInWithGoogle();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (builder) => const HomePage()));
           },
         ),
       ),
